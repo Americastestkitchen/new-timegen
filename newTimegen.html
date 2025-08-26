@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Timegen</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div><h1>Timegen</h1></div>
+    <div>
+      <form id="emailForm">
+        Prefix
+        <input type="text" id="prefix" placeholder="john.smith" required>
+        Notes
+        <input type="text" id="notes">
+        <div><button type="submit" class="generate-btn">Generate email</button></div>
+      </form>
+    </div>
+    <div id="resultContainer">
+      <div id="generatedEmail" class="generated-email"></div>
+    </div>
+    <div><button id="copyBtn" class="copy-btn" style="display: none;">Copy to clipboard</button></div>
+    <div id="feedback" class="feedback"></div>
+    <div><h2>History</h2></div>
+    <div id="history"></div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>

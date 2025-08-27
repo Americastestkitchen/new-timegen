@@ -11,19 +11,22 @@
     <div><h1>Timegen</h1></div>
     <div>
       <form id="emailForm">
-        Prefix
-        <input type="text" id="prefix" placeholder="john.smith" required>
-        Notes
-        <input type="text" id="notes">
-        <div><button type="submit" class="generate-btn">Generate email</button></div>
+        <div>Prefix
+          <input type="text" id="prefix" placeholder="john.smith" required>
+        </div>
+        <div>Notes
+          <input type="text" id="notes">
+          <br/><button type="submit" class="generate-btn">Generate email</button>
+        </div>
       </form>
     </div>
     <div id="resultContainer">
-      <div id="generatedEmail" class="generated-email"></div>
+      <div id="generatedEmail" class="generated-email" style="display: none;"></div>
     </div>
     <div><button id="copyBtn" class="copy-btn" style="display: none;">Copy to clipboard</button></div>
     <div id="feedback" class="feedback"></div>
     <div><h2>History</h2></div>
+    <div id="disclaimer">WARNING: Clearing your browser storage will delete history</div>
     <div id="history"></div>
   </div>
   <script src="script.js"></script>

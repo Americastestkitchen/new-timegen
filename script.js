@@ -61,8 +61,7 @@ class EmailGenerator {
       const newEmail = document.getElementById('generatedEmail').innerHTML;
       const newNotes = this.notesInput.value.trim();
       this.historyArray.unshift({memEmail: newEmail, memNotes: newNotes});
-      localStorage.setItem('emailGenerator_history', JSON.stringify(this.historyArray.slice(0, 1000)));
-      this.loadHistory();
+      this.saveNewEmail();
     }
   }
 
@@ -70,6 +69,7 @@ class EmailGenerator {
     this.generatedEmailDiv.innerHTML = this.currentEmail;
     this.resultContainer.classList.remove('hidden');
     this.copyBtn.style.display = 'block';
+    this.generatedEmailDiv.style.display = 'block';
   }
 
   async copyToClipboard() {
@@ -143,13 +143,25 @@ class EmailGenerator {
     }
   }
 
+  saveNewEmail() {
+    localStorage.setItem('emailGenerator_history', JSON.stringify(this.historyArray.slice(0, 1000)));
+    this.loadHistory();
+  }
+
   loadHistory() {
     this.history.innerHTML = this.historyStorage.map(function(elem, index){
-      return `<div><div class="inline">${elem.memEmail}</div><div class="inline comments">${elem.memNotes}</div></div>`;
+      return `<div class="item"><button class="deleteItem" onclick="emailGenerator.deleteEmail(${index})">X</button><div class="inline">${elem.memEmail}</div><div class="inline comments"> ${elem.memNotes}</div></div>`;
     }).join('');
+  }
+
+  deleteEmail(index) {
+    if (confirm('Are you sure you want to delete?')) {
+      this.historyArray.splice(index, 1);
+      this.saveNewEmail();
+    }
   }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  new EmailGenerator();
+  window.emailGenerator = new EmailGenerator();
 });

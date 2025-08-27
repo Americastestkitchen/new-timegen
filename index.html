@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Timegen</title>
+  <title>Timegen</title>
   <link rel="stylesheet" href="style.css">
   <link rel="manifest" href="manifest.json" />
 </head>
@@ -20,15 +20,15 @@
         </div>
         <div>Overwrite suffix
           <input type="text" id="suffix" placeholder="(optional)">
-          <br/><button type="submit" class="generate-btn">Generate email</button>
+          <br/><button id="generateBtn" type="submit" class="generate-btn">Generate email</button>
         </div>
       </form>
     </div>
     <div id="resultContainer">
       <div id="generatedEmail" class="generated-email" style="display: none;"></div>
     </div>
-    <div><button id="copyBtn" class="copy-btn" style="display: none;">Copy to clipboard</button></div>
     <div id="feedback" class="feedback"></div>
+    <div><button id="copyBtn" class="copy-btn" style="display: none;">Copy to clipboard</button></div>
     <div><h2>History</h2></div>
     <div id="disclaimer">WARNING: Clearing your browser storage will delete history</div>
     <div id="history"></div>

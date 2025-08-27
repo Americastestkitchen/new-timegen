@@ -6,6 +6,7 @@ class EmailGenerator {
     this.suffixInput = document.getElementById('suffix');
     this.resultContainer = document.getElementById('resultContainer');
     this.generatedEmailDiv = document.getElementById('generatedEmail');
+    this.generateBtn = document.getElementById('generateBtn');
     this.copyBtn = document.getElementById('copyBtn');
     this.feedback = document.getElementById('feedback');
     this.history = document.getElementById('history');
@@ -43,7 +44,7 @@ class EmailGenerator {
   }
 
   generateEmail() {
-    const prefix = this.prefixInput.value.trim();
+    const prefix = this.prefixInput.value.replace(/[^a-zA-Z0-9.]/g, '').toLowerCase();
     let suffix = this.suffixInput.value.replace(/[^a-zA-Z0-9]/g, '');
 
     if (!prefix) {
@@ -70,6 +71,7 @@ class EmailGenerator {
       const newNotes = this.notesInput.value.trim();
       this.historyArray.unshift({memEmail: newEmail, memNotes: newNotes});
       this.saveNewEmail();
+      this.showGenerateSuccess();
     }
   }
 
@@ -115,6 +117,16 @@ class EmailGenerator {
     }
 
     document.body.removeChild(textArea);
+  }
+
+  showGenerateSuccess() {
+    this.generateBtn.textContent = 'Generated!'
+    this.generateBtn.classList.add('generated');
+
+    setTimeout(() => {
+      this.generateBtn.textContent = 'Generate email';
+      this.generateBtn.classList.remove('generated');
+    }, 2000);
   }
 
   showCopySuccess() {

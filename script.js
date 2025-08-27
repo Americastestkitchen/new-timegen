@@ -3,15 +3,16 @@ class EmailGenerator {
     this.form = document.getElementById('emailForm');
     this.prefixInput = document.getElementById('prefix');
     this.notesInput = document.getElementById('notes');
+    this.suffixInput = document.getElementById('suffix');
     this.resultContainer = document.getElementById('resultContainer');
     this.generatedEmailDiv = document.getElementById('generatedEmail');
     this.copyBtn = document.getElementById('copyBtn');
     this.feedback = document.getElementById('feedback');
     this.history = document.getElementById('history');
     this.currentEmail = '';
-    this.historyStorage = JSON.parse(localStorage.getItem('emailGenerator_history'));
+    this.historyStorage = JSON.parse(localStorage.getItem('emailGenerator_history')) || [];
     this.historyArray = this.historyStorage || [];
-    this.lastTimestamp = '';
+    this.lastSuffix = '';
 
     this.initEventListeners();
     this.loadSavedValues();
@@ -43,6 +44,7 @@ class EmailGenerator {
 
   generateEmail() {
     const prefix = this.prefixInput.value.trim();
+    let suffix = this.suffixInput.value.replace(/[^a-zA-Z0-9]/g, '');
 
     if (!prefix) {
       this.showFeedback('Please fill in the field', flase)
@@ -50,11 +52,17 @@ class EmailGenerator {
     }
 
     const timestamp = this.generateTimestamp();
-    this.currentEmail = `${prefix}+${timestamp}@americastestkitchen.com`
+    if (!suffix) {
+      this.currentEmail = `${prefix}+${timestamp}@americastestkitchen.com`
+    } else {
+      suffix = `<span class="customSuffix">${suffix}</span>`;
+      this.currentEmail = `${prefix}+${suffix}@americastestkitchen.com`
+    }
 
     // Make sure we're not repeating
-    if (timestamp !== this.lastTimestamp) {
-      this.lastTimestamp = timestamp;
+    const currentSuffix = suffix || timestamp;
+    if (currentSuffix !== this.lastSuffix) {
+      this.lastSuffix = currentSuffix;
       this.displayEmail();
       this.showFeedback('Email generated successfully', true);
       this.saveValues();
@@ -150,7 +158,7 @@ class EmailGenerator {
 
   loadHistory() {
     this.history.innerHTML = this.historyStorage.map(function(elem, index){
-      return `<div class="item"><button class="deleteItem" onclick="emailGenerator.deleteEmail(${index})">X</button><div class="inline">${elem.memEmail}</div><div class="inline comments"> ${elem.memNotes}</div></div>`;
+      return `<div class="item"><button class="deleteItem" onclick="emailGenerator.deleteEmail(${index})">X</button><div class="inline email-item">${elem.memEmail}</div><div class="inline comments"> ${elem.memNotes}</div></div>`;
     }).join('');
   }
 

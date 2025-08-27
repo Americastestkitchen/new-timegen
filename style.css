@@ -59,7 +59,10 @@ h2 {
   font-size: 20px;
 }
 .generate-btn {
+  font-size: 30px;
+  font-weight: normal;
   margin-top: 10px;
+  width: 100%;
 }
 #generatedEmail {
   background-color: rgba(0, 0, 0, 0.5);
@@ -98,9 +101,12 @@ h2 {
 .seconds {
   background-color: darkgoldenrod;
 }
+.customSuffix {
+  background-color: darkviolet;
+}
 #disclaimer {
   font-size: 12px;
-  opacity: 0.6;
+  opacity: 0.7;
 }
 .history div {
   margin: 5px 0;

@@ -113,7 +113,7 @@ class EmailGenerator {
       this.showCopySuccess();
       this.showFeedback('Copied to clipboard!', true);
     } catch (err) {
-      this.showFeedback('Cioy failed - please select and copy manually', false);
+      this.showFeedback('Copy failed - please select and copy manually', false);
     }
 
     document.body.removeChild(textArea);

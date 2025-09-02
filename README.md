@@ -2,6 +2,9 @@
 
 Timegen is a QA utility page that can be used for quickly creating test emails. It can be accessed on the web, but also acts as a PWA (progressive web app) that can be added to your phone's home screen.
 
+## Documentation
+Full documentation (and sharable link!) about how to use this app can be found [here](https://docs.google.com/document/d/1pYCmhE9nUjpDBN8BT1khp08Jatxwaij-1oKbwffgkVk/edit?usp=sharing)
+
 ## Features
 - Creation of timestamped emails with the touch of a button, with your alias
 - Ability to add optional notes

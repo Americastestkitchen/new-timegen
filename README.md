@@ -7,9 +7,11 @@ Full documentation (and sharable link!) about how to use this app can be found [
 
 ## Features
 - Creation of timestamped emails with the touch of a button, with your alias
+- Easy copy-paste button
 - Ability to add optional notes
 - Ability to override the email suffix
 - History of recently-created emails, with the ability to delete
+- Import and export history
 - Mobile-app view friendly
 
 ## Deploy

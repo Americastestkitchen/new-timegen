@@ -48,7 +48,7 @@ class EmailGenerator {
     let suffix = this.suffixInput.value.replace(/[^a-zA-Z0-9]/g, '');
 
     if (!prefix) {
-      this.showFeedback('Please fill in the field', flase)
+      this.showFeedback('Please fill in the field', false)
       return;
     }
 
@@ -179,6 +179,118 @@ class EmailGenerator {
       this.historyArray.splice(index, 1);
       this.saveNewEmail();
     }
+  }
+
+  exportHistory() {
+    try {
+      const recentEmails = this.historyStorage;
+
+      if (recentEmails.length === 0) {
+        this.showFeedback('No recent emails to export', false);
+        return;
+      }
+
+      const exportData = {
+        exportDate: new Date().toISOString(),
+        totalEmails: recentEmails.length,
+        emails: recentEmails
+      };
+
+      const jsonString = JSON.stringify(exportData, null, 2);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+      const filename = `timegen-recent-emails-${timestamp}.json`
+
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      this.showFeedback(`Exported ${recentEmails.length} emails to JSON file`, true);
+    } catch (e) {
+      console.error('Export failed:', e);
+      this.showFeedback('Failed to export emails', false)
+    }
+  }
+
+  triggerImport() {
+    const fileInput = document.getElementById('importFileInput');
+    fileInput.click();
+  }
+
+  importHistory(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.type !== 'application/json' && !file.name.endsWith('.json')) {
+      this.showFeedback('Please select a JSON file', false);
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      try {
+        const importData = JSON.parse(e.target.result);
+
+        // Validate JSON structure
+        if (!importData.emails || !Array.isArray(importData.emails)) {
+          this.showFeedback('Invalid file format - missing emails array', false);
+          return;
+        }
+
+        // Validate email objects
+        const validEmails = importData.emails.filter(emailData => {
+          return emailData.memEmail;
+        });
+
+        if (validEmails.length === 0) {
+          this.showFeedback('No valid emails found in file', false);
+          return;
+        }
+
+        // Get current emails and merge with imported ones
+        const currentEmails = this.historyStorage;
+        const allEmails = [...validEmails, ...currentEmails];
+
+        // Remove duplicates based on email address
+        const uniqueEmails = [];
+        const seenEmails = new Set();
+
+        for (const emailData of allEmails) {
+          if (!seenEmails.has(emailData.memEmail)) {
+            seenEmails.add(emailData.memEmail);
+            uniqueEmails.push(emailData);
+          }
+        }
+
+        // Save
+        console.log(uniqueEmails);
+        localStorage.setItem('emailGenerator_history', JSON.stringify(uniqueEmails));
+        this.historyStorage = JSON.parse(localStorage.getItem('emailGenerator_history')) || [];
+        this.historyArray = this.historyStorage;
+
+        this.loadHistory();
+        this.showFeedback(`Imported ${validEmails.length} emails (${uniqueEmails.length} total)`, true);
+      } catch (e) {
+        console.error('Import failed:', e);
+        this.showFeedback('Invalid JSON file format', false);
+      }
+    }
+
+    reader.onerror = () => {
+      this.showFeedback('Failed to read file', false);
+    }
+
+    reader.readAsText(file);
+
+    // Reset for next use
+    event.target.value = '';
   }
 }
 

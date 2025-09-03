@@ -143,6 +143,9 @@ h2 {
   position: absolute;
   user-select: none;
 }
+.import-btn {
+  margin-left: 10px;
+}
 
 @media (max-width: 480px) {
   .container {

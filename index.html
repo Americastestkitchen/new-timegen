@@ -32,6 +32,8 @@
     <div><h2>History</h2></div>
     <div id="disclaimer">WARNING: Clearing your browser storage will delete history</div>
     <div id="history"></div>
+    <div><button id="exportBtn" class="export-btn" onclick="emailGenerator.exportHistory()">Export</button><button id="importBtn" class="import-btn" onclick="emailGenerator.triggerImport()">Import</button></div>
+    <input type="file" id="importFileInput" accept=".json,application/json" onchange="emailGenerator.importHistory(event)" style="display: none;">
   </div>
   <script src="script.js"></script>
 </body>
